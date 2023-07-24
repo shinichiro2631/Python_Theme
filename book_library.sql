@@ -1,0 +1,6 @@
+CREATE TABLE book_library (
+	book_id SERIAL PRIMARY KEY NOT NULL,
+	book_name VARCHAR(64) NOT NULL,
+	book_author VARCHAR(32) NOT NULL,
+	ISBN VARCHAR(8) NOT NULL
+);

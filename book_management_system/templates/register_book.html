@@ -6,14 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>ユーザ登録画面</h3>
+    <h3>図書登録画面</h3>
     {% if error != null %}
         <p style="color:red">{{error}}</p>
     {% endif %}
-    <form action="{{url_for('register_exe')}}" method="post">
-        ユーザー名：<input type="text" name="username"><br>
-        メール：<input type="text" name="mail"><br>
-        パスワード：<input type="password" name="password"><br>
+    <form action="{{url_for('register_exe2')}}" method="post">
+        図書名：<input type="text" name="book_name"><br>
+        著者名：<input type="text" name="book_author"><br>
+        ISBN：<input type="text" name="ISBN"><br>
     <button type="submit">登録</button>
-    </form>
+    <a href="../">戻る</a>
+</body>
 </html>

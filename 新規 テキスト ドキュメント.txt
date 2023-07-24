@@ -1,0 +1,76 @@
+def login(name, password):
+    sql = 'SELECT user_id, hashed_password, salt FROM users WHERE name = %s'
+    flg = False
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql, (name,))
+        user = cursor.fetchone()
+        if user != None:
+            salt = user[2]
+            hashed_password = get_hash(password, salt)
+            if hashed_password == user[1]:
+                flg = True
+        else:
+            flg = False
+    except psycopg2.DatabaseError:
+        flg = False
+    finally:
+        cursor.close()
+        connection.close()
+    return [flg, user[0]]
+# ソルト生成
+def get_salt():
+    charset = string.ascii_letters + string.digits
+    salt = ''.join(random.choices(charset, k=30))
+    return salt
+# ハッシュ化されたpw生成
+def get_hash(password, salt):
+    b_pw = bytes(password, "utf-8")
+    b_salt = bytes(salt, "utf-8")
+    hashed_password = hashlib.pbkdf2_hmac("sha256", b_pw, b_salt, 1000).hex()
+    return hashed_password
+    
+    
+    @app.route('/login')
+def user_login_index():
+    msg = request.args.get('msg')
+    if msg == None:
+        return render_template('user_login.html')
+    else:
+        return render_template('user_login.html', msg=msg)
+@app.route('/login', methods=['POST'])
+def user_login():
+    name = request.form.get('name')
+    password = request.form.get('password')
+    if db.login(name, password)[0]:
+        session['user'] = True
+        session['user_info'] = db.login(name, password)[1]
+        return redirect(url_for('mypage'))
+    else:
+        error = '名前またはパスワードが違います。'
+        input_data = {'name':name, 'password':password}
+        return render_template('user_login.html', error=error, data=input_data)
+
+
+     <body>
+        <header>
+            <h2>図書管理システム</h2>
+        </header>
+        {% if error != null %}
+        <p style="color:red">{{error}}</p>
+        {% endif %}
+        {% if msg != null %}
+        <p style="color:blue">{{msg}}</p>
+        {% endif %}
+        <form action="{{url_for('user_login')}}" method="post">
+            名前<br>
+            <input type="text" name="name" value="{{data.name if data is defined else ''}}"><br>
+            パスワード<br>
+            <input type="password" name="password" value="{{data.password if data is defined else ''}}"><br>
+            <button type="submit">ログイン</button>
+        </form>
+        未登録の方はこちら
+        <a href="{{url_for('user_register_form')}}">新規登録</a><br>
+        <a href="../">戻る</a>
+    </body>

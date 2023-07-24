@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>図書一覧</h3>
+    <table>
+    <tr>
+        <td>ID</td>
+        <td>図書名</td>
+        <td>著者名</td>
+        <td>ISBN</td>
+    </tr>
+    {% for book in list_book: %}
+    <tr>
+        <td>{{book[0]}}</td>
+        <td>{{book[1]}}</td>
+        <td>{{book[2]}}</td>
+        <td>{{book[3]}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <a href="../">戻る</a>
+</body>
+</html>
