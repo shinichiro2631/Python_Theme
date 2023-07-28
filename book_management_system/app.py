@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+from form import SearchForm
 import db, string, random
 
 app = Flask(__name__)
@@ -87,6 +88,14 @@ def register_exe2():
     else:
         redirect(url_for('index'))
 
+@app.route('/search', methods=['GET', 'POST'])
+def search_books():
+    form = SearchForm(request.form)
+    books = []
+    if request.method == 'POST' and form.validate():
+        key = form.keyword.data
+        books = db.get_books_by_name(key)
+    return render_template('search.html', form=form, books=books)
 
 if __name__ == '__main__':
     app.run(debug=True)

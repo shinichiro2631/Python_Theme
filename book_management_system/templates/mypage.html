@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        a {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h3>管理メニュー</h3>
-    <a href = "{{url_for('register_book_form')}}">図書登録<a>
-    <a href = "{{url_for('list_book')}}">図書一覧<a>
+    <a href="{{url_for('register_book_form')}}">図書登録</a>
+    <a href="{{url_for('list_book')}}">図書一覧</a>
+    <a href="{{url_for('search_books')}}">図書検索</a>
 </body>
 </html>

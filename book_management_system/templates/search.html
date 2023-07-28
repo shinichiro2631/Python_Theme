@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>本の検索</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #F0F0F0;
+        }
+        div {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>本の検索</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}  <!-- CSRFトークンを非表示にする -->
+        {{ form.keyword.label }} {{ form.keyword }}
+        <input type="submit" value="検索">
+    </form>
+    {% if books %}
+        {% for book in books %}
+        <div>
+            <h2>{{ book[1] }}</h2>
+            <p>著者: {{ book[2] }}</p>
+            <p>ISBN: {{ book[3] }}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

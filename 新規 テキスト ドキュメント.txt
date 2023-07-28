@@ -74,3 +74,17 @@ def user_login():
         <a href="{{url_for('user_register_form')}}">新規登録</a><br>
         <a href="../">戻る</a>
     </body>
+    
+defget_all_students():
+# 接続処理 省略
+sql='SELECT id, name, age, birth FROM sample_users WHERE name LIKE %s'
+key='%'+key+'%'
+cursor.execute(sql, (key,))
+rows=cursor.fetchall()
+name_list=[] # return 用リスト
+forrowinrows:
+name_list.append(row[1]) # name を取り出してlist に追加
+cursor.close()
+connection.close()
+returnname_list
+print(get_all_students())# メソッド実行

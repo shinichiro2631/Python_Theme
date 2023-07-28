@@ -108,3 +108,16 @@ def insert_book(book_name, book_author, ISBN):
         connection.close()
         
     return count
+
+def get_books_by_name(key):
+    sql='SELECT book_id, book_name, book_author, ISBN FROM book_library WHERE book_name LIKE %s'
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        key='%'+key+'%'
+        cursor.execute(sql, (key,))
+        rows=cursor.fetchall()
+        return rows
+    finally :
+        cursor.close()
+        connection.close()
